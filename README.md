@@ -286,3 +286,6 @@ In case you want to make queries on any unexpected system error, please send us 
 HAVE FUN!
 
 
+## Result
+{"message":"Thank You! Please copy and paste this JSON to README.md on your github","userId":"lijiahao90@gmail.com","secret":"8N7UFRLIH1O47VIIFVLX99LS1FNIPB","status":200,"data":{"userId":"lijiahao90@gmail.com","secret":"8N7UFRLIH1O47VIIFVLX99LS1FNIPB","numberOfWordsTried":80,"numberOfCorrectWords":75,"numberOfWrongGuesses":234,"totalScore":1266,"dateTime":"Wed Aug 28 2013 22:06:04 GMT+0000 (UTC)"}}
+
