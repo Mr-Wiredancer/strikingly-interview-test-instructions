@@ -287,5 +287,4 @@ HAVE FUN!
 
 
 ## Result
-{"message":"Thank You! Please copy and paste this JSON to README.md on your github","userId":"lijiahao90@gmail.com","secret":"8N7UFRLIH1O47VIIFVLX99LS1FNIPB","status":200,"data":{"userId":"lijiahao90@gmail.com","secret":"8N7UFRLIH1O47VIIFVLX99LS1FNIPB","numberOfWordsTried":80,"numberOfCorrectWords":75,"numberOfWrongGuesses":234,"totalScore":1266,"dateTime":"Wed Aug 28 2013 22:06:04 GMT+0000 (UTC)"}}
-
+{"message":"Thank You! Please copy and paste this JSON to README.md on your github","userId":"lijiahao90@gmail.com","secret":"6F3GLTY3CA1EXW29274EZ22AZTBDFG","status":200,"data":{"userId":"lijiahao90@gmail.com","secret":"6F3GLTY3CA1EXW29274EZ22AZTBDFG","numberOfWordsTried":80,"numberOfCorrectWords":76,"numberOfWrongGuesses":238,"totalScore":1282,"dateTime":"Thu Aug 29 2013 05:50:34 GMT+0000 (UTC)"}}
