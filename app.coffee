@@ -1,6 +1,7 @@
 requestify = require('requestify')
 util = require('util')
 SbExpert = require('./experts/sbexpert').SbExpert
+fs = require('fs')
 letters = 'etaoinshrdlcumwfgypbvkjxqz'
 DEBUG = false
 class Hangman
@@ -22,8 +23,14 @@ class Hangman
       @votes.push(null)
 
   initiateGame: (@secret, @numWordsGuess, @numGuessesPerWord)->
+    game = this
     @numGuessesAllowedCurrentWord = @numGuessesPerWord
     @log(util.format("Hangman game %s initiated. Number of words to guess: %s; Number of guesses per word: %s", @secret, @numWordsGuess, @numGuessesPerWord))
+    fs.open('games.txt', 'a', 0o666, (err, fd)->
+      fs.write(fd, game.secret+"\n", null, undefined, ()->
+
+      )
+    )
     @startGame()
 
   startGame: ()->
@@ -156,6 +163,7 @@ class Hangman
       secret: @secret
     }).then((response)->
       body = JSON.parse(response.body)
+      console.log(body)
       if body.status is 200
         game.log.apply(game, [body])
       else
@@ -163,6 +171,8 @@ class Hangman
         game.log.apply(game, [body])
         return
     )
+
+
 
   log: (data)->
     console.log(data)
