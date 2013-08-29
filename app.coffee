@@ -1,9 +1,9 @@
 requestify = require('requestify')
 util = require('util')
-SbExpert = require('./experts/sbexpert').SbExpert
+BbExpert = require('./experts/Bbexpert').BbExpert
 fs = require('fs')
 letters = 'etaoinshrdlcumwfgypbvkjxqz'
-DEBUG = false
+DEBUG = true
 class Hangman
   constructor: ()->
     @userId = 'lijiahao90@gmail.com'
@@ -15,7 +15,7 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new SbExpert(this, 0)]
+    @experts = [new BbExpert(this, 0)]
     @voteCount = 0
     @votes = []
     for expert in @experts
