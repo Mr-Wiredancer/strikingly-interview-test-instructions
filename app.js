@@ -23,7 +23,6 @@
       this.currentWord = '';
       this.currentWordFinished = false;
       this.wordsFinished = 0;
-      this.sendInitGameRequest();
       this.missed = '';
       this.letterIndex = 0;
       this.experts = [new SbExpert(this, 0)];
@@ -34,6 +33,7 @@
         expert = _ref[_i];
         this.votes.push(null);
       }
+      this.sendInitGameRequest();
     }
 
     Hangman.prototype.initiateGame = function(secret, numWordsGuess, numGuessesPerWord) {
@@ -55,11 +55,30 @@
       return this.nextMove();
     };
 
+    Hangman.prototype.resetGame = function() {
+      var expert, _i, _len, _ref;
+
+      this.currentWord = '';
+      this.currentWordFinished = false;
+      this.wordsFinished = 0;
+      this.missed = '';
+      this.letterIndex = 0;
+      this.experts = [new SbExpert(this, 0)];
+      this.voteCount = 0;
+      this.votes = [];
+      _ref = this.experts;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        expert = _ref[_i];
+        this.votes.push(null);
+      }
+      return this.sendInitGameRequest();
+    };
+
     Hangman.prototype.nextMove = function() {
       if (this.currentWord === '') {
         return this.sendNextWordRequest();
       } else if (this.wordsFinished === this.numWordsGuess) {
-        return this.sendGetResultRequest();
+        return this.resetGame();
       } else if (this.currentWordFinished || (this.numGuessesAllowedCurrentWord === 0)) {
         this.wordsFinished += 1;
         this.currentWordFinished = false;
@@ -218,6 +237,7 @@
     Hangman.prototype.sendGetResultRequest = function() {
       var game;
 
+      console.log('sendGetResultRequest called');
       game = this;
       return requestify.post(this.requestUrl, {
         action: 'getTestResults',

@@ -11,7 +11,6 @@ class Hangman
     @currentWord = ''
     @currentWordFinished = false
     @wordsFinished = 0
-    @sendInitGameRequest()
     @missed = ''
     
     @letterIndex = 0
@@ -21,6 +20,9 @@ class Hangman
     @votes = []
     for expert in @experts
       @votes.push(null)
+
+    @sendInitGameRequest()
+
 
   initiateGame: (@secret, @numWordsGuess, @numGuessesPerWord)->
     game = this
@@ -38,13 +40,31 @@ class Hangman
 #    DEBUG and @log('startGame called')
     @nextMove()
 
+  resetGame: ()->
+    @currentWord = ''
+    @currentWordFinished = false
+    @wordsFinished = 0
+    @missed = ''
+
+    @letterIndex = 0
+
+    @experts = [new SbExpert(this, 0)]
+    @voteCount = 0
+    @votes = []
+    for expert in @experts
+      @votes.push(null)
+
+    @sendInitGameRequest()
+
+
   nextMove: ()->
 #    DEBUG and @log('nextMove called')
     if @currentWord is ''
       @sendNextWordRequest()
     else if @wordsFinished is @numWordsGuess
 #      @log('gameFinished')
-      @sendGetResultRequest()
+#      @sendGetResultRequest()
+      @resetGame()
     else if @currentWordFinished or (@numGuessesAllowedCurrentWord is 0)
 #      @log('time to get new word')
       @wordsFinished+=1
@@ -156,6 +176,7 @@ class Hangman
     return @currentWord.indexOf('*') is -1
 
   sendGetResultRequest: ()->
+    console.log('sendGetResultRequest called')
     game = this
     requestify.post(@requestUrl, {
       action: 'getTestResults'
