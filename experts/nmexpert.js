@@ -24,21 +24,31 @@
       expert = this;
       word = this.game.currentWord;
       missed = this.game.missed;
-      return requestify.post(this.requestUrl, {
-        pattern: word.replace(/\*/g, '?'),
-        exclusions: missed
-      }).then(function(response) {
-        var body, choices, result;
+      if (word.length !== 5) {
+        return this.game.vote.apply(this.game, ['?', this.expertIndex]);
+      } else {
+        return requestify.post(this.requestUrl, {
+          pattern0: word.substr(0, 1).replace('*', '').toUpperCase(),
+          pattern1: word.substr(1, 1).replace('*', '').toUpperCase(),
+          pattern2: word.substr(2, 1).replace('*', '').toUpperCase(),
+          pattern3: word.substr(3, 1).replace('*', '').toUpperCase(),
+          pattern4: word.substr(4, 1).replace('*', '').toUpperCase(),
+          game: 'hangman',
+          guessed: missed,
+          action: 'display'
+        }).then(function(response) {
+          var $, result;
 
-        body = JSON.parse(response.body);
-        choices = Object.keys(body.recs);
-        if (choices.length === 0) {
-          result = '?';
-        } else {
-          result = choices[0];
-        }
-        return expert.game.vote.apply(expert.game, [result, this.expertIndex]);
-      });
+          $ = cheerio.load(response.body);
+          console.log(response);
+          if ($('.guess').length === 0) {
+            result = '?';
+          } else {
+            result = $('.guess').first().html().trim().substr(0, 1);
+          }
+          return expert.game.vote.apply(expert.game, [result, this.expertIndex]);
+        });
+      }
     };
 
     return NmExpert;
