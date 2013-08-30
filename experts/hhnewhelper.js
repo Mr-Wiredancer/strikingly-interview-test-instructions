@@ -8,7 +8,7 @@ var page = require('webpage').create(),
 setTimeout(function(){
     console.log('time to end');
     phantom.exit();
-}, 5000);
+}, 10000);
 
 page.settings.loadImages = false;
 
