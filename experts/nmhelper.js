@@ -10,6 +10,14 @@ var page = require('webpage').create(),
     c5 = word.substr(4, 1),
     data = 'pattern0='+(c1==='?'?'':c1)+'&pattern1='+(c2==='?'?'':c2)+'&pattern2='+(c3==='?'?'':c3)+'&pattern3='+(c4==='?'?'':c4)+'&pattern4='+(c5==='?'?'':c5)+'&guessed='+missed+'&game=hangman&action=display';
 
+//set a time limit
+setTimeout(function(){
+    console.log(JSON.stringify({choice:'?'}));
+    phantom.exit();
+}, 5000);
+
+page.settings.loadImages = false;
+
 page.open(server, 'post', data, function (status) {
     if (status !== 'success') {
         //failed

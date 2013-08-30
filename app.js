@@ -18,9 +18,9 @@
 
   fs = require('fs');
 
-  letters = 'etaoinshrdlcumwfgypbvkjxqz';
+  letters = 'etaoinshrdlcumwfgypbvkjxqz'.toUpperCase();
 
-  DEBUG = false;
+  DEBUG = true;
 
   Hangman = (function() {
     function Hangman() {
@@ -33,7 +33,7 @@
       this.wordsFinished = 0;
       this.missed = '';
       this.letterIndex = 0;
-      this.experts = [new HhnewExpert(this, 0)];
+      this.experts = [new NmExpert(this, 0)];
       this.voteCount = 0;
       this.votes = [];
       _ref = this.experts;
@@ -223,8 +223,8 @@
         body = JSON.parse(response.body);
         if (body.status === 200) {
           if (game.currentWord === body.word) {
-            DEBUG && game.log('missed word: ' + letter);
-            game.missed += letter.toUpperCase();
+            game.missed = game.missed + letter.toUpperCase();
+            DEBUG && game.log('missed: ' + game.missed);
           }
           game.currentWord = body.word;
           if (game.isGuessSuccess.apply(game, [])) {

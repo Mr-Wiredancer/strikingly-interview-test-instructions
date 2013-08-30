@@ -21,6 +21,15 @@ if (noClue){
 }
 
 var data = 'noLetters='+word.length+'&letter_0='+letters[0]+'&letter_1='+letters[1]+'&letter_2='+letters[2]+'&letter_3='+letters[3]+'&letter_4='+letters[4]+'&letter_5='+letters[5]+'&letter_6='+letters[6]+'&letter_7='+letters[7]+'&bad_letters='+missed+'';
+
+//set a time limit
+setTimeout(function(){
+    console.log(JSON.stringify({choice:'?'}));
+    phantom.exit();
+}, 5000);
+
+page.settings.loadImages = false;
+
 page.open(server, 'post', data, function (status) {
     if (status !== 'success') {
         //failed

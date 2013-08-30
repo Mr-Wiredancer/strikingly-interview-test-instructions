@@ -4,6 +4,14 @@ var page = require('webpage').create(),
     word = system.args[1],
     missed = system.args[2]
 
+//set a time limit
+setTimeout(function(){
+    console.log('time to end');
+    phantom.exit();
+}, 5000);
+
+page.settings.loadImages = false;
+
 page.open(server, function (status) {
     if (status !== 'success') {
         //failed

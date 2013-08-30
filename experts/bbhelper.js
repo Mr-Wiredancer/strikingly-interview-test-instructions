@@ -5,6 +5,14 @@ var page = require('webpage').create(),
     missed = system.args[2],
     data = 'haction=Guess+Word&bonus1=&bonus2=&bonus3=&bonus4=&bonus5=&bonus6=&bonus7=&bonus8=&wordlvl=2&assets=&puzzle='+word+'&incorrects='+missed+'&username=&cmts=';
 
+//set a time limit
+setTimeout(function(){
+    console.log(JSON.stringify({choice:'?'}));
+    phantom.exit();
+}, 5000);
+
+page.settings.loadImages = false;
+
 page.open(server, 'post', data, function (status) {
     if (status !== 'success') {
         //failed

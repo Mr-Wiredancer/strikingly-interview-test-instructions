@@ -6,8 +6,8 @@ HhnewExpert = require('./experts/hhnewexpert').HhnewExpert
 HhExpert = require('./experts/hhexpert').HhExpert
 HwfcExpert = require('./experts/hwfcexpert').HwfcExpert
 fs = require('fs')
-letters = 'etaoinshrdlcumwfgypbvkjxqz'
-DEBUG = false
+letters = 'etaoinshrdlcumwfgypbvkjxqz'.toUpperCase()
+DEBUG = true
 class Hangman
   constructor: ()->
     @userId = 'lijiahao90@gmail.com'
@@ -19,7 +19,7 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new HhnewExpert(this, 0)]
+    @experts = [new NmExpert(this, 0)]
     @voteCount = 0
     @votes = []
     for expert in @experts
@@ -163,8 +163,8 @@ class Hangman
       if body.status is 200
         if game.currentWord is body.word
           #missed the guess
-          DEBUG and game.log('missed word: '+letter)
-          game.missed+=letter.toUpperCase()
+          game.missed=game.missed+letter.toUpperCase()
+          DEBUG and game.log('missed: '+game.missed)
 
         game.currentWord = body.word
         if game.isGuessSuccess.apply(game, [])
