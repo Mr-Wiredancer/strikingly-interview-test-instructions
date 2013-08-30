@@ -2,6 +2,7 @@ requestify = require('requestify')
 util = require('util')
 BbExpert = require('./experts/bbexpert').BbExpert
 NmExpert = require('./experts/nmexpert').NmExpert
+HhnewExpert = require('./experts/hhnewexpert').HhnewExpert
 fs = require('fs')
 letters = 'etaoinshrdlcumwfgypbvkjxqz'
 DEBUG = true
@@ -16,7 +17,7 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new BbExpert(this, 0)]
+    @experts = [new HhnewExpert(this, 0)]
     @voteCount = 0
     @votes = []
     for expert in @experts
