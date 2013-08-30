@@ -35,6 +35,10 @@
         try {
           data = JSON.parse(stdout).recs;
           arr = Object.keys(data);
+          if (arr.length === 0) {
+            expert.game.vote.apply(expert.game, ['?', expert.expertIndex]);
+            return;
+          }
           arr.sort(function(a, b) {
             return data[b] - data[a];
           });

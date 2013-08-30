@@ -8,8 +8,9 @@ HhExpert = require('./experts/hhexpert').HhExpert
 HwfcExpert = require('./experts/hwfcexpert').HwfcExpert
 NaiveExpert = require('./experts/naiveexpert').NaiveExpert
 fs = require('fs')
-letters = 'etaoinshrdlcumwfgypbvkjxqz'.toUpperCase()
-DEBUG = true
+DEBUG = false
+
+#a solver using randomized weighted majority algorithm
 class Hangman
   constructor: ()->
     @userId = 'lijiahao90@gmail.com'
@@ -18,8 +19,6 @@ class Hangman
     @currentWordFinished = false
     @wordsFinished = 0
     @missed = ''
-    
-    @letterIndex = 0
 
     @experts = [
       new SbExpert(this, 0)
@@ -36,7 +35,6 @@ class Hangman
       @votes.push(null)
       @weights.push(1)
 
-
     @sendInitGameRequest()
 
 
@@ -52,7 +50,6 @@ class Hangman
     @startGame()
 
   startGame: ()->
-    #TODO: may do something else
 #    DEBUG and @log('startGame called')
     @nextMove()
 
@@ -92,7 +89,6 @@ class Hangman
     else
       DEBUG and @log('making new guess')
       #current word not finished, make another guess  
-      #@sendGuessRequest(@getNextGuess())
       @callVote()
 
   callVote: ()->
@@ -108,7 +104,6 @@ class Hangman
 #    DEBUG and @log(util.format('choice is %s, index is %s', choice, expertIndex))
     @votes[expertIndex] = choice
     if @votes.indexOf(null)<0
-#      @sendGuessRequest(@getMajorityVote())
 #      DEBUG and @log(@votes)
       @sendGuessRequest(@getBestGuess())
 
@@ -148,40 +143,6 @@ class Hangman
       theNum -= vw
       if theNum<0
         return vote
-
-  getMajorityVote: ()->
-    DEBUG and @log('getMajorVote called')
-    total = {}
-    for vote in @votes
-      if total[vote]
-        total[vote]+=1
-      else
-        total[vote] = 1
-    sortedVotes = []
-    for vote, count of total
-      sortedVotes.push({'vote':vote, 'count':count})
-     
-    sortedVotes.sort((a, b)->
-      return b.count-a.count
-    )
-
-    if sortedVotes[0].vote is '?'
-      if sortedVotes.length>1
-        result = sortedVotes[1].vote
-      else
-        result = @getNextGuess()
-    else
-      result = sortedVotes[0].vote
-    @votes = (null for vote in @votes)
-    return result
-
-  getNextGuess: ()->
-    @letterIndex+=1
-    l = letters[@letterIndex-1]
-    if @currentWord.indexOf(l)>-1 or @missed.indexOf(l)>-1
-      @letterIndex+=1
-      l = letters[@letterIndex-1]
-    return l
 
   sendNextWordRequest: ()->
 #    DEBUG and @log('sendNextWOrdRequest called')

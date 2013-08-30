@@ -24,6 +24,9 @@ class HhExpert
       try
         data = JSON.parse(stdout).recs
         arr = Object.keys(data)
+        if arr.length is 0
+          expert.game.vote.apply(expert.game, ['?', expert.expertIndex])
+          return
         arr.sort((a, b)->
           return data[b]-data[a]
         )
