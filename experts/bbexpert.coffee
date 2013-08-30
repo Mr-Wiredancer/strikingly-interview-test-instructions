@@ -22,8 +22,11 @@ class BbExpert
     ]
 
     childProcess.execFile(binPath, childArgs, (err, stdout, stderr)->
-      result = JSON.parse(stdout)
-      expert.game.vote.apply(expert.game, [result.choice, expert.expertIndex])
+      try
+        result = JSON.parse(stdout)
+        expert.game.vote.apply(expert.game, [result.choice, expert.expertIndex])
+      catch e
+        expert.game.vote.apply(expert.game, ['?', expert.expertIndex])
     )
 
 exports.BbExpert = BbExpert

@@ -32,10 +32,15 @@
       missed = this.game.missed;
       childArgs = [path.join(__dirname, this.bbhelper), word.replace(/\*/g, '?'), missed];
       return childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-        var result;
+        var e, result;
 
-        result = JSON.parse(stdout);
-        return expert.game.vote.apply(expert.game, [result.choice, expert.expertIndex]);
+        try {
+          result = JSON.parse(stdout);
+          return expert.game.vote.apply(expert.game, [result.choice, expert.expertIndex]);
+        } catch (_error) {
+          e = _error;
+          return expert.game.vote.apply(expert.game, ['?', expert.expertIndex]);
+        }
       });
     };
 

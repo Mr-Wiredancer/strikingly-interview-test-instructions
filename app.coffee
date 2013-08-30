@@ -1,6 +1,7 @@
 requestify = require('requestify')
 util = require('util')
 BbExpert = require('./experts/bbexpert').BbExpert
+SbExpert = require('./experts/sbexpert').SbExpert
 NmExpert = require('./experts/nmexpert').NmExpert
 HhnewExpert = require('./experts/hhnewexpert').HhnewExpert
 HhExpert = require('./experts/hhexpert').HhExpert
@@ -19,7 +20,7 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new NmExpert(this, 0)]
+    @experts = [new BbExpert(this, 0)]
     @voteCount = 0
     @votes = []
     for expert in @experts
