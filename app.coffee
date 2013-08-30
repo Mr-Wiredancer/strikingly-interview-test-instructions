@@ -20,7 +20,7 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new BbExpert(this, 0)]
+    @experts = [new HhExpert(this, 0)]
     @voteCount = 0
     @votes = []
     for expert in @experts
@@ -90,6 +90,7 @@ class Hangman
       expert.getNextGuess()
 
   vote: (choice, expertIndex)->
+    choice = choice.toUpperCase()
     DEBUG and @log('vote called')
     DEBUG and @log(util.format('choice is %s, index is %s', choice, expertIndex))
     @votes[expertIndex] = choice

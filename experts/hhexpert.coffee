@@ -3,7 +3,7 @@ childProcess = require('child_process');
 phantomjs = require('phantomjs');
 binPath = phantomjs.path;
 path = require('path');
-DEBUG = true
+DEBUG = false
 class HhExpert
   constructor:(@game, @expertIndex)->
     @helper = 'hhhelper.js'

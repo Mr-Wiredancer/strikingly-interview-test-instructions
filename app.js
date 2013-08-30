@@ -35,7 +35,7 @@
       this.wordsFinished = 0;
       this.missed = '';
       this.letterIndex = 0;
-      this.experts = [new BbExpert(this, 0)];
+      this.experts = [new HhExpert(this, 0)];
       this.voteCount = 0;
       this.votes = [];
       _ref = this.experts;
@@ -116,6 +116,7 @@
     };
 
     Hangman.prototype.vote = function(choice, expertIndex) {
+      choice = choice.toUpperCase();
       DEBUG && this.log('vote called');
       DEBUG && this.log(util.format('choice is %s, index is %s', choice, expertIndex));
       this.votes[expertIndex] = choice;

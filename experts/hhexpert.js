@@ -12,7 +12,7 @@
 
   path = require('path');
 
-  DEBUG = true;
+  DEBUG = false;
 
   HhExpert = (function() {
     function HhExpert(game, expertIndex) {
