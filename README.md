@@ -1,3 +1,5 @@
+{"message":"Thank You! Please copy and paste this JSON to README.md on your github","userId":"lijiahao90@gmail.com","secret":"JEMLOWE9HK6GVIUESS3ID108RDLSOR","status":200,"data":{"userId":"lijiahao90@gmail.com","secret":"JEMLOWE9HK6GVIUESS3ID108RDLSOR","numberOfWordsTried":80,"numberOfCorrectWords":78,"numberOfWrongGuesses":218,"totalScore":1342,"dateTime":"Fri Aug 30 2013 12:05:07 GMT+0000 (UTC)"}}
+
 ## Welcome to Strikingly Interview Test
 
 
@@ -285,6 +287,3 @@ In case you want to make queries on any unexpected system error, please send us 
 
 HAVE FUN!
 
-
-## Result
-{"message":"Thank You! Please copy and paste this JSON to README.md on your github","userId":"lijiahao90@gmail.com","secret":"6F3GLTY3CA1EXW29274EZ22AZTBDFG","status":200,"data":{"userId":"lijiahao90@gmail.com","secret":"6F3GLTY3CA1EXW29274EZ22AZTBDFG","numberOfWordsTried":80,"numberOfCorrectWords":76,"numberOfWrongGuesses":238,"totalScore":1282,"dateTime":"Thu Aug 29 2013 05:50:34 GMT+0000 (UTC)"}}
