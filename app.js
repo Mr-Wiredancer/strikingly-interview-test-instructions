@@ -20,7 +20,7 @@
 
   letters = 'etaoinshrdlcumwfgypbvkjxqz';
 
-  DEBUG = true;
+  DEBUG = false;
 
   Hangman = (function() {
     function Hangman() {
@@ -33,7 +33,7 @@
       this.wordsFinished = 0;
       this.missed = '';
       this.letterIndex = 0;
-      this.experts = [new HwfcExpert(this, 0)];
+      this.experts = [new HhnewExpert(this, 0)];
       this.voteCount = 0;
       this.votes = [];
       _ref = this.experts;

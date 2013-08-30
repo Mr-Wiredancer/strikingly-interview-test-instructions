@@ -5,8 +5,7 @@ phantomjs = require('phantomjs');
 binPath = phantomjs.path;
 path = require('path');
 DEBUG = false
-#only handles 5-letter words.
-#server doesn't accept http request from different origin?
+#only handles 4~8-letter words.
 class HwfcExpert
   constructor:(@game, @expertIndex)->
     @helper = 'hwfchelper.js'

@@ -7,7 +7,7 @@ HhExpert = require('./experts/hhexpert').HhExpert
 HwfcExpert = require('./experts/hwfcexpert').HwfcExpert
 fs = require('fs')
 letters = 'etaoinshrdlcumwfgypbvkjxqz'
-DEBUG = true
+DEBUG = false
 class Hangman
   constructor: ()->
     @userId = 'lijiahao90@gmail.com'
@@ -19,7 +19,7 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new HwfcExpert(this, 0)]
+    @experts = [new HhnewExpert(this, 0)]
     @voteCount = 0
     @votes = []
     for expert in @experts

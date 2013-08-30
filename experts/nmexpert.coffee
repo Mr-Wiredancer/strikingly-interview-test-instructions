@@ -6,7 +6,6 @@ binPath = phantomjs.path;
 path = require('path');
 DEBUG = false
 #only handles 5-letter words.
-#server doesn't accept http request from different origin?
 class NmExpert
   constructor:(@game, @expertIndex)->
     @nmhelper = 'nmhelper.js'
