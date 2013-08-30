@@ -16,7 +16,7 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new NmExpert(this, 0)]
+    @experts = [new BbExpert(this, 0)]
     @voteCount = 0
     @votes = []
     for expert in @experts

@@ -30,7 +30,7 @@
       expert = this;
       word = this.game.currentWord;
       missed = this.game.missed;
-      childArgs = [path.join(__dirname, this.bbhelper), encodeURIComponent(word.replace(/\*/g, '?')), encodeURIComponent(missed)];
+      childArgs = [path.join(__dirname, this.bbhelper), word.replace(/\*/g, '?'), missed];
       return childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
         var result;
 

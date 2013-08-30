@@ -27,7 +27,7 @@
       this.wordsFinished = 0;
       this.missed = '';
       this.letterIndex = 0;
-      this.experts = [new NmExpert(this, 0)];
+      this.experts = [new BbExpert(this, 0)];
       this.voteCount = 0;
       this.votes = [];
       _ref = this.experts;

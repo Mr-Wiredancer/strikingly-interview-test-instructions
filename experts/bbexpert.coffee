@@ -17,8 +17,8 @@ class BbExpert
 
     childArgs = [
       path.join(__dirname, @bbhelper)
-      encodeURIComponent(word.replace(/\*/g, '?'))
-      encodeURIComponent(missed)
+      word.replace(/\*/g, '?')
+      missed
     ]
 
     childProcess.execFile(binPath, childArgs, (err, stdout, stderr)->

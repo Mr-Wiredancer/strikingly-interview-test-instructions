@@ -1,7 +1,7 @@
 var system = require('system')
 var page = require('webpage').create(),
     server = 'http://blogmybrain.com/hanging-with-friends-cheat/',
-    word = system.args[1],
+    word = system.args[1].replace(/\?/g,'%3F'),
     missed = system.args[2],
     data = 'haction=Guess+Word&bonus1=&bonus2=&bonus3=&bonus4=&bonus5=&bonus6=&bonus7=&bonus8=&wordlvl=2&assets=&puzzle='+word+'&incorrects='+missed+'&username=&cmts=';
 
