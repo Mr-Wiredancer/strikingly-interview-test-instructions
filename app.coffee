@@ -6,6 +6,7 @@ NmExpert = require('./experts/nmexpert').NmExpert
 HhnewExpert = require('./experts/hhnewexpert').HhnewExpert
 HhExpert = require('./experts/hhexpert').HhExpert
 HwfcExpert = require('./experts/hwfcexpert').HwfcExpert
+NaiveExpert = require('./experts/naiveexpert').NaiveExpert
 fs = require('fs')
 letters = 'etaoinshrdlcumwfgypbvkjxqz'.toUpperCase()
 DEBUG = true
@@ -20,11 +21,21 @@ class Hangman
     
     @letterIndex = 0
 
-    @experts = [new HhExpert(this, 0)]
+    @experts = [
+      new SbExpert(this, 0)
+      new NaiveExpert(this, 1)
+      new NmExpert(this, 2)
+      new HhExpert(this, 3)
+      new HhnewExpert(this, 4)
+      new HwfcExpert(this, 5)
+    ]
     @voteCount = 0
     @votes = []
+    @weights = []
     for expert in @experts
       @votes.push(null)
+      @weights.push(1)
+
 
     @sendInitGameRequest()
 
@@ -85,17 +96,55 @@ class Hangman
       @callVote()
 
   callVote: ()->
-    DEBUG and @log('callVote called')
-    for expert in @experts
+    DEBUG and @log('')
+#    DEBUG and @log('callVote called')
+    for expert, index in @experts
+#      DEBUG and console.log('expert '+index)
       expert.getNextGuess()
 
   vote: (choice, expertIndex)->
     choice = choice.toUpperCase()
-    DEBUG and @log('vote called')
-    DEBUG and @log(util.format('choice is %s, index is %s', choice, expertIndex))
+#    DEBUG and @log('vote called')
+#    DEBUG and @log(util.format('choice is %s, index is %s', choice, expertIndex))
     @votes[expertIndex] = choice
     if @votes.indexOf(null)<0
-      @sendGuessRequest(@getMajorityVote())
+#      @sendGuessRequest(@getMajorityVote())
+#      DEBUG and @log(@votes)
+      @sendGuessRequest(@getBestGuess())
+
+  getBestGuess:()->
+    total = {}
+    totalWeight = 0
+    for vote, index in @votes
+      #ignore '?' votes
+      if vote isnt '?'
+        w = @weights[index]
+        if total[vote]
+          total[vote] += w
+        else
+          total[vote] = w
+        totalWeight += w
+
+    sortedVotes = []
+    for vote, count of total
+      sortedVotes.push({'vote':vote, 'count':count})
+
+    sortedVotes.sort((a, b)->
+      return b.count-a.count
+    )
+
+    theNum = Math.random()*totalWeight
+#    DEBUG and @log(util.format('the random number is %s, total sum is %s', theNum, totalWeight))
+    DEBUG and @log(@votes)
+    DEBUG and @log(@weights)
+#    DEBUG and @log(sortedVotes)
+
+    for item in sortedVotes
+      vote = item.vote
+      vw = total[vote]
+      theNum -= vw
+      if theNum<0
+        return vote
 
   getMajorityVote: ()->
     DEBUG and @log('getMajorVote called')
@@ -151,8 +200,18 @@ class Hangman
         return
     )
 
+  tuneWeights: (rightLetter, wrongLetter)->
+    if rightLetter
+      for vote, index in @votes
+        if (vote isnt '?') and (vote isnt rightLetter)
+          @weights[index] = @weights[index]*0.5
+    else
+      for vote, index in @votes
+        if vote is wrongLetter
+          @weights[index] = @weights[index]*0.5
+
   sendGuessRequest: (letter)->
-    DEBUG and @log('sendGuessRequest called')
+#    DEBUG and @log('sendGuessRequest called')
     DEBUG and @log(util.format('current word is %s. making guess %s', @currentWord, letter))
     game = this
     requestify.post(@requestUrl, {
@@ -164,14 +223,21 @@ class Hangman
       body = JSON.parse(response.body)
       if body.status is 200
         if game.currentWord is body.word
-          #missed the guess
+          #missed the guess. `letter` is wrong
           game.missed=game.missed+letter.toUpperCase()
           DEBUG and game.log('missed: '+game.missed)
+          game.tuneWeights.apply(game, [null, letter])
+        else
+          #`letter` is right
+          game.tuneWeights.apply(game, [letter, null])
+
+        game.votes = (null for vote in game.votes)
 
         game.currentWord = body.word
         if game.isGuessSuccess.apply(game, [])
           game.currentWordFinished = true
         game.numGuessesAllowedCurrentWord = body.data.numberOfGuessAllowedForThisWord
+
         game.nextMove.apply(game, [])
       else
         game.log.apply(game,['failed making a guess'])

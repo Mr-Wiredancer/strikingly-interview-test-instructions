@@ -26,7 +26,7 @@ var data = 'noLetters='+word.length+'&letter_0='+letters[0]+'&letter_1='+letters
 setTimeout(function(){
     console.log(JSON.stringify({choice:'?'}));
     phantom.exit();
-}, 5000);
+}, 10000);
 
 page.settings.loadImages = false;
 

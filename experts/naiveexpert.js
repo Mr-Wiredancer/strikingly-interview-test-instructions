@@ -17,6 +17,7 @@
         l = _ref[_i];
         if (this.game.currentWord.indexOf(l) < 0 && this.game.missed.indexOf(l) < 0) {
           this.game.vote.apply(this.game, [l.toUpperCase(), this.expertIndex]);
+          return;
         }
       }
       return this.game.vote.apply(this.game, ['?', this.expertIndex]);

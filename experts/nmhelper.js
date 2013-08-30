@@ -14,7 +14,7 @@ var page = require('webpage').create(),
 setTimeout(function(){
     console.log(JSON.stringify({choice:'?'}));
     phantom.exit();
-}, 5000);
+}, 10000);
 
 page.settings.loadImages = false;
 
