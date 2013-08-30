@@ -1,12 +1,13 @@
 util = require('util')
 requestify = require('requestify')
-Browser = require('zombie')
+childProcess = require('child_process');
+phantomjs = require('phantomjs');
+binPath = phantomjs.path;
+path = require('path');
 DEBUG = true
 class BbExpert
   constructor:(@game, @expertIndex)->
-    @requestUrl = 'http://blogmybrain.com/hanging-with-friends-cheat/'
-    @browser = new Browser()
-    @browser.visit(@requestUrl)
+    @bbhelper = 'bbhelper.js'
 
   getNextGuess: ()->
     DEBUG and @game.log('bb\'s getnextguess is called')
@@ -14,23 +15,15 @@ class BbExpert
     word = @game.currentWord
     missed = @game.missed
 
-    @browser.visit(@requestUrl,{ silent: true}, (e,b)->
-      setTimeout(()->
-        DEBUG and console.log('page opened')
-        expert.browser.fill.apply(expert.browser, ['#pz', word.replace(/\*/g, '?')])
-        expert.browser.fill.apply(expert.browser, ['#incorrects', missed])
-        DEBUG and console.log('about to submit')
-        expert.browser.pressButton.apply(expert.browser, ['Guess Word', ()->
-          DEBUG and console.log('form submitted')
-          if expert.browser.window.document.querySelector('#pick0') and (expert.browser.window.document.querySelector('#pick0').parentNode.childNodes.length is 31)
-            choice = '?'
-          else
-            choice = expert.browser.query('#pick0').parentNode.childNodes[7].value
+    childArgs = [
+      path.join(__dirname, @bbhelper)
+      encodeURIComponent(word.replace(/\*/g, '?'))
+      encodeURIComponent(missed)
+    ]
 
-          expert.game.vote.apply(expert.game, [choice, expert.expertIndex])
-        ])
-
-      ,0)
+    childProcess.execFile(binPath, childArgs, (err, stdout, stderr)->
+      result = JSON.parse(stdout)
+      expert.game.vote.apply(expert.game, [result.choice, expert.expertIndex])
     )
 
 exports.BbExpert = BbExpert

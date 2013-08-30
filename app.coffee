@@ -1,6 +1,6 @@
 requestify = require('requestify')
 util = require('util')
-BbExpert = require('./experts/Bbexpert').BbExpert
+BbExpert = require('./experts/bbexpert').BbExpert
 fs = require('fs')
 letters = 'etaoinshrdlcumwfgypbvkjxqz'
 DEBUG = true
@@ -86,6 +86,7 @@ class Hangman
 
   vote: (choice, expertIndex)->
     DEBUG and @log('vote called')
+    DEBUG and @log(util.format('choice is %s, index is %s', choice, expertIndex))
     @votes[expertIndex] = choice
     if @votes.indexOf(null)<0
       @sendGuessRequest(@getMajorityVote())

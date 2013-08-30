@@ -6,7 +6,7 @@
 
   util = require('util');
 
-  BbExpert = require('./experts/Bbexpert').BbExpert;
+  BbExpert = require('./experts/bbexpert').BbExpert;
 
   fs = require('fs');
 
@@ -107,6 +107,7 @@
 
     Hangman.prototype.vote = function(choice, expertIndex) {
       DEBUG && this.log('vote called');
+      DEBUG && this.log(util.format('choice is %s, index is %s', choice, expertIndex));
       this.votes[expertIndex] = choice;
       if (this.votes.indexOf(null) < 0) {
         return this.sendGuessRequest(this.getMajorityVote());
