@@ -7,7 +7,8 @@ var page = require('webpage').create(),
 
 page.open(server, 'post', data, function (status) {
     if (status !== 'success') {
-        console.log('Unable to post!');
+        //failed
+        console.log(JSON.stringfy({choice:'?'}));
     } else {
 //        console.log(page.content);
       var result = page.evaluate(function(){
