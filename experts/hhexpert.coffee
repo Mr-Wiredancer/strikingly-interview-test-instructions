@@ -1,27 +1,38 @@
 util = require('util')
-requestify = require('requestify')
-DEBUG = false
+childProcess = require('child_process');
+phantomjs = require('phantomjs');
+binPath = phantomjs.path;
+path = require('path');
+DEBUG = true
 class HhExpert
   constructor:(@game, @expertIndex)->
+    @helper = 'hhhelper.js'
 
   getNextGuess: ()->
-    DEBUG and @game.log('sb\'s getnextguess is called')
+    DEBUG and @game.log('hh\'s getnextguess is called')
     expert = this
     word = @game.currentWord
     missed = @game.missed
 
-    requestify.post('http://www.scrabulizer.com/hangman/solve', {
-      pattern: word.replace(/\*/g, '?')
-      exclusions: missed
-    }).then((response)->
-      body = JSON.parse(response.body)
+    childArgs = [
+      path.join(__dirname, @helper)
+      word.replace(/\*/g, '?')
+      missed
+    ]
 
-      choices = Object.keys(body.recs)
-      if choices.length is 0
+    childProcess.execFile(binPath, childArgs, (err, stdout, stderr)->
+      try
+        data = JSON.parse(stdout).recs
+        arr = Object.keys(data)
+        arr.sort((a, b)->
+          return data[b]-data[a]
+        )
+        DEBUG and console.log(data)
+        result = arr[0]
+      catch e
         result = '?'
-      else
-        result = choices[0]
-      expert.game.vote.apply(expert.game, [result, @expertIndex])
+
+      expert.game.vote.apply(expert.game, [result, expert.expertIndex])
     )
 
 exports.HhExpert = HhExpert

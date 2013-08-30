@@ -1,6 +1,4 @@
 util = require('util')
-requestify = require('requestify')
-cheerio = require('cheerio')
 childProcess = require('child_process');
 phantomjs = require('phantomjs');
 binPath = phantomjs.path;
@@ -29,7 +27,7 @@ class HhnewExpert
         arr.sort((a, b)->
           return data[b]-data[a]
         )
-        console.log(data)
+        DEBUG and console.log(data)
         result = arr[0]
       catch e
         result = '?'
