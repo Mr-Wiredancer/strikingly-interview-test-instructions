@@ -154,7 +154,13 @@
         });
       }
       sortedVotes.sort(function(a, b) {
-        return b.count - a.count;
+        var dif;
+
+        dif = b.count - a.count;
+        if (dif === 0) {
+          return Math.random() - 0.5;
+        }
+        return dif;
       });
       theNum = Math.random() * totalWeight;
       DEBUG && this.log(this.votes);

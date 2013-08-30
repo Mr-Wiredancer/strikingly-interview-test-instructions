@@ -130,7 +130,10 @@ class Hangman
       sortedVotes.push({'vote':vote, 'count':count})
 
     sortedVotes.sort((a, b)->
-      return b.count-a.count
+      dif = b.count-a.count
+      if dif is 0
+        return Math.random()-0.5
+      return dif
     )
 
     theNum = Math.random()*totalWeight
