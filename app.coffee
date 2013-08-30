@@ -210,6 +210,12 @@ class Hangman
         if vote is wrongLetter
           @weights[index] = @weights[index]*0.5
 
+    max = Math.max.apply(Math, @weights)
+    if max<1
+      @weights = @weights.map((e)->
+        return e*2
+      )
+
   sendGuessRequest: (letter)->
 #    DEBUG and @log('sendGuessRequest called')
     DEBUG and @log(util.format('current word is %s. making guess %s', @currentWord, letter))

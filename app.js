@@ -255,32 +255,30 @@
     };
 
     Hangman.prototype.tuneWeights = function(rightLetter, wrongLetter) {
-      var index, vote, _i, _j, _len, _len1, _ref, _ref1, _results, _results1;
+      var index, max, vote, _i, _j, _len, _len1, _ref, _ref1;
 
       if (rightLetter) {
         _ref = this.votes;
-        _results = [];
         for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
           vote = _ref[index];
           if ((vote !== '?') && (vote !== rightLetter)) {
-            _results.push(this.weights[index] = this.weights[index] * 0.5);
-          } else {
-            _results.push(void 0);
+            this.weights[index] = this.weights[index] * 0.5;
           }
         }
-        return _results;
       } else {
         _ref1 = this.votes;
-        _results1 = [];
         for (index = _j = 0, _len1 = _ref1.length; _j < _len1; index = ++_j) {
           vote = _ref1[index];
           if (vote === wrongLetter) {
-            _results1.push(this.weights[index] = this.weights[index] * 0.5);
-          } else {
-            _results1.push(void 0);
+            this.weights[index] = this.weights[index] * 0.5;
           }
         }
-        return _results1;
+      }
+      max = Math.max.apply(Math, this.weights);
+      if (max < 1) {
+        return this.weights = this.weights.map(function(e) {
+          return e * 2;
+        });
       }
     };
 
