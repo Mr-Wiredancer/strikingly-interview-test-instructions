@@ -1,7 +1,7 @@
 #guess acoording to relative frequencies of alphabets
 class NaiveExpert
   constructor:(@game, @expertIndex)->
-    @letters = 'etaoinshrdlcumwfgypbvkjxqz'
+    @letters = 'etaoinshrdlcumwfgypbvkjxqz'.toUpperCase()
 
   getNextGuess: ()->
     for l in @letters

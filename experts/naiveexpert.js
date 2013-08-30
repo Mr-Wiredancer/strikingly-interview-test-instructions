@@ -6,7 +6,7 @@
     function NaiveExpert(game, expertIndex) {
       this.game = game;
       this.expertIndex = expertIndex;
-      this.letters = 'etaoinshrdlcumwfgypbvkjxqz';
+      this.letters = 'etaoinshrdlcumwfgypbvkjxqz'.toUpperCase();
     }
 
     NaiveExpert.prototype.getNextGuess = function() {
